@@ -8,15 +8,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
     <com.carlitosdroid.mdlikeanimation.CircleView
         android:id="@+id/vCircle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
+        android:layout_margin="30dp"
         android:layout_gravity="center"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
     <ImageView
         android:id="@+id/ivStar"
