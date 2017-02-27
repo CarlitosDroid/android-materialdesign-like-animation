@@ -14,7 +14,7 @@
         android:id="@+id/vCircle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="30dp"
+        android:layout_margin="20dp"
         android:layout_gravity="center"
         android:visibility="visible"/>
 
@@ -22,7 +22,7 @@
         android:id="@+id/ivStar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
+        android:layout_margin="20dp"
         android:contentDescription="@string/app_name"
         android:layout_gravity="center"
         android:src="@drawable/ic_star_grey_500_24dp"/>

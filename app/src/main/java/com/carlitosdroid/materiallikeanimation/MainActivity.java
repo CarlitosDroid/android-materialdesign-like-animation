@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.carlitosdroid.interfaces.OnLikeAnimationListener;
 import com.carlitosdroid.mdlikeanimation.LikeButtonViewBlue;
@@ -22,6 +23,7 @@ import com.carlitosdroid.mdlikeanimation.LikeButtonViewBlue;
 public class MainActivity extends AppCompatActivity implements OnLikeAnimationListener {
 
     private LikeButtonViewBlue lbvFavorite;
+    private boolean favorite = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +37,12 @@ public class MainActivity extends AppCompatActivity implements OnLikeAnimationLi
         lbvFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lbvFavorite.startLikeAnimation();
+                if(favorite){
+                    lbvFavorite.startLikeAnimation();
+                }else{
+                    lbvFavorite.startUnLikeAnimation();
+                }
+                favorite = !favorite;
             }
         });
 
@@ -49,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements OnLikeAnimationLi
                         .setAction("Action", null).show();
             }
         });
+
+        lbvFavorite.setOnLikeAnimationClickListener(this);
     }
 
     @Override
@@ -75,11 +84,11 @@ public class MainActivity extends AppCompatActivity implements OnLikeAnimationLi
 
     @Override
     public void onLikeAnimationFinished() {
-
+        Toast.makeText(this, "Liked", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onUnLikeAnimationFinished() {
-
+        Toast.makeText(this, "UnLiked", Toast.LENGTH_SHORT).show();
     }
 }

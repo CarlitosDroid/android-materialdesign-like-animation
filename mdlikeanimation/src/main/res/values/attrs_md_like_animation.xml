@@ -2,6 +2,7 @@
 <resources>
     <declare-styleable name="md_like_animation">
         <attr name="text_color" format="color" />
-        <attr name="label_background_res" format="reference" />
+        <attr name="liked_background_res" format="reference" />
+        <attr name="unLiked_background_res" format="reference" />
     </declare-styleable>
 </resources>

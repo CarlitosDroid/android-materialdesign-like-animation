@@ -42,7 +42,7 @@ public class LikeButtonViewBlue extends FrameLayout {
     private int likedResId;
     private int unLikedResId;
 
-    private int itemPositionClicked = 0;
+    private int itemPosition = -1;
 
     private int mTextColor;
 
@@ -74,8 +74,13 @@ public class LikeButtonViewBlue extends FrameLayout {
         getAttributes(context, attrs);
     }
 
+    public void setItemPosition(int itemPosition){
+        if(itemPosition == -1) Log.e("Error itemPosition","itemPosition value : " + itemPosition);
+        this.itemPosition = itemPosition;
+    }
+
     private void init() {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.view_like_button_white, this, true);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.view_like_button, this, true);
         ivStar = (ImageView) view.findViewById(R.id.ivStar);
         vDotsView = (DotsView) view.findViewById(R.id.vDotsView);
         vCircle = (CircleView) view.findViewById(R.id.vCircle);
@@ -92,9 +97,8 @@ public class LikeButtonViewBlue extends FrameLayout {
             try {
                 mTextColor = typedArray.getColor(R.styleable.md_like_animation_text_color,
                         ContextCompat.getColor(context, android.R.color.darker_gray));
-
-                likedResId =  typedArray.getResourceId(R.styleable.md_like_animation_label_background_res, R.drawable.ic_star_grey_500_24dp);
-                unLikedResId =  typedArray.getResourceId(R.styleable.md_like_animation_label_background_res, R.drawable.ic_star_border_grey_500_24dp);
+                likedResId =  typedArray.getResourceId(R.styleable.md_like_animation_liked_background_res, R.drawable.ic_star_grey_500_24dp);
+                unLikedResId =  typedArray.getResourceId(R.styleable.md_like_animation_unLiked_background_res, R.drawable.ic_star_border_grey_500_24dp);
                 ivStar.setImageResource(unLikedResId);
             } catch (Exception e) {
                 Log.e(LOG_TAG, "Error while creating the view AutoLabelUI: ", e);
@@ -163,11 +167,10 @@ public class LikeButtonViewBlue extends FrameLayout {
             );
 
             likeAnimatorSet.addListener(new AnimatorListenerAdapter() {
-
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    onLikeAnimationListener.onLikeAnimationFinished();
-                    onLikeAnimationItemClickListener.onLikeAnimationItemFinished(itemPositionClicked);
+                    if(onLikeAnimationListener!=null) onLikeAnimationListener.onLikeAnimationFinished();
+                    if(onLikeAnimationItemClickListener!=null) onLikeAnimationItemClickListener.onLikeAnimationItemFinished(itemPosition);
                 }
             });
             likeAnimatorSet.start();
@@ -198,8 +201,8 @@ public class LikeButtonViewBlue extends FrameLayout {
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    onLikeAnimationListener.onUnLikeAnimationFinished();
-                    onLikeAnimationItemClickListener.onUnLikeAnimationItemFinished(itemPositionClicked);
+                    if(onLikeAnimationListener!=null) onLikeAnimationListener.onUnLikeAnimationFinished();
+                    if(onLikeAnimationItemClickListener!=null) onLikeAnimationItemClickListener.onUnLikeAnimationItemFinished(itemPosition);
                 }
             });
 

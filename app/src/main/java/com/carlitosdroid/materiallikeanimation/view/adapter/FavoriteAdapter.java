@@ -1,10 +1,12 @@
 package com.carlitosdroid.materiallikeanimation.view.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.carlitosdroid.interfaces.OnLikeAnimationItemClickListener;
 import com.carlitosdroid.materiallikeanimation.ListLikeAnimationActivity;
 import com.carlitosdroid.materiallikeanimation.R;
 import com.carlitosdroid.materiallikeanimation.model.FavoriteEntity;
@@ -44,11 +46,11 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ItemVi
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-//        if(objectList.get(position).isFavorite()){
-//            holder.lbvFavorite.setImageResource(R.drawable.ic_star_blue_500_24dp);
-//        }else{
-//            holder.lbvFavorite.setImageResource(R.drawable.ic_star_border_blue_500_24dp);
-//        }
+        if(objectList.get(position).isFavorite()){
+            holder.lbvFavorite.setImageResource(R.drawable.ic_star_blue_500_24dp);
+        }else{
+            holder.lbvFavorite.setImageResource(R.drawable.ic_star_border_blue_500_24dp);
+        }
     }
 
     @Override
@@ -56,13 +58,14 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ItemVi
         return objectList.size();
     }
 
-    class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, OnLikeAnimationItemClickListener{
         private final LikeButtonViewBlue lbvFavorite;
 
         ItemViewHolder(View view) {
             super(view);
             lbvFavorite = (LikeButtonViewBlue) view.findViewById(R.id.lbvFavorite);
             lbvFavorite.setOnClickListener(this);
+            lbvFavorite.setOnLikeAnimationItemClickListener(this);
         }
 
         @Override
@@ -76,6 +79,16 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ItemVi
                         lbvFavorite.startLikeAnimation();
                     }
             }
+        }
+
+        @Override
+        public void onLikeAnimationItemFinished(int itemPosition) {
+            activity.handleLikeAnimation(itemPosition);
+        }
+
+        @Override
+        public void onUnLikeAnimationItemFinished(int itemPosition) {
+            activity.handleUnLikeAnimation(itemPosition);
         }
     }
 }

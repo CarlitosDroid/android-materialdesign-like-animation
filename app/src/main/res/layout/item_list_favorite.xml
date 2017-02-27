@@ -9,6 +9,8 @@
     <com.carlitosdroid.mdlikeanimation.LikeButtonViewBlue
         android:id="@+id/lbvFavorite"
         android:layout_width="100dp"
-        android:layout_height="100dp"/>
+        android:layout_height="100dp"
+        app:liked_background_res="@drawable/ic_star_blue_500_24dp"
+        app:unLiked_background_res="@drawable/ic_star_border_blue_500_24dp"/>
 
 </LinearLayout>

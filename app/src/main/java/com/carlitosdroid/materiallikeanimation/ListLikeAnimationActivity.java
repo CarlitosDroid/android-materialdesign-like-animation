@@ -8,9 +8,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
-import com.carlitosdroid.interfaces.OnLikeAnimationItemClickListener;
 import com.carlitosdroid.materiallikeanimation.model.FavoriteEntity;
 import com.carlitosdroid.materiallikeanimation.view.adapter.FavoriteAdapter;
 
@@ -22,7 +22,7 @@ import java.util.List;
  *
  */
 
-public class ListLikeAnimationActivity extends AppCompatActivity implements OnLikeAnimationItemClickListener{
+public class ListLikeAnimationActivity extends AppCompatActivity{
 
     RecyclerView rcvConfiguration;
     private FavoriteAdapter favoriteAdapter;
@@ -56,7 +56,7 @@ public class ListLikeAnimationActivity extends AppCompatActivity implements OnLi
         });
     }
 
-    private void loadData(){
+    private void loadData() {
         objectList.add(new FavoriteEntity(false));
         objectList.add(new FavoriteEntity(false));
         objectList.add(new FavoriteEntity(false));
@@ -75,19 +75,14 @@ public class ListLikeAnimationActivity extends AppCompatActivity implements OnLi
         favoriteAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onLikeAnimationItemFinished(int itemPosition) {
-        if(!objectList.get(itemPosition).isFavorite()){
-            objectList.get(itemPosition).setFavorite(true);
-            favoriteAdapter.notifyItemChanged(itemPosition);
-        }
+
+    public void handleLikeAnimation(int itemPosition){
+        objectList.get(itemPosition).setFavorite(true);
+        favoriteAdapter.notifyItemChanged(itemPosition);
     }
 
-    @Override
-    public void onUnLikeAnimationItemFinished(int itemPosition) {
-        if(objectList.get(itemPosition).isFavorite()){
-            objectList.get(itemPosition).setFavorite(false);
-            favoriteAdapter.notifyItemChanged(itemPosition);
-        }
+    public void handleUnLikeAnimation(int itemPosition){
+        objectList.get(itemPosition).setFavorite(false);
+        favoriteAdapter.notifyItemChanged(itemPosition);
     }
 }
