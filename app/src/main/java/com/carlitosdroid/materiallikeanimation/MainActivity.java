@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.carlitosdroid.interfaces.OnLikeAnimationListener;
 import com.carlitosdroid.mdlikeanimation.LikeButtonViewBlue;
 
 /**
@@ -18,7 +19,7 @@ import com.carlitosdroid.mdlikeanimation.LikeButtonViewBlue;
  */
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnLikeAnimationListener {
 
     private LikeButtonViewBlue lbvFavorite;
 
@@ -70,5 +71,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onLikeAnimationFinished() {
+
+    }
+
+    @Override
+    public void onUnLikeAnimationFinished() {
+
     }
 }

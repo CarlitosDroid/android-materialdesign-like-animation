@@ -7,5 +7,5 @@ package com.carlitosdroid.interfaces;
 
 public interface OnLikeAnimationListener {
     void onLikeAnimationFinished();
-    void onUnLikeAnimationfinished();
+    void onUnLikeAnimationFinished();
 }

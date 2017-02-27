@@ -11,8 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.carlitosdroid.interfaces.OnLikeAnimationItemClickListener;
-import com.carlitosdroid.interfaces.OnLikeAnimationListener;
-import com.carlitosdroid.materiallikeanimation.interfaces.OnFavoriteAnimationFinished;
 import com.carlitosdroid.materiallikeanimation.model.FavoriteEntity;
 import com.carlitosdroid.materiallikeanimation.view.adapter.FavoriteAdapter;
 

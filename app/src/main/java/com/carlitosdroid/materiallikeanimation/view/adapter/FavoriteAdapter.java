@@ -69,12 +69,12 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ItemVi
         public void onClick(View view) {
             switch (view.getId()){
                 case R.id.lbvFavorite:
-//                    lbvFavorite.setItemPosition(getAdapterPosition());
-//                    if(objectList.get(getAdapterPosition()).isFavorite()){
-//                        lbvFavorite.startUnLikeAnimation();
-//                    }else{
-//                        lbvFavorite.startLikeAnimation();
-//                    }
+                    lbvFavorite.setItemPosition(getAdapterPosition());
+                    if(objectList.get(getAdapterPosition()).isFavorite()){
+                        lbvFavorite.startUnLikeAnimation();
+                    }else{
+                        lbvFavorite.startLikeAnimation();
+                    }
             }
         }
     }

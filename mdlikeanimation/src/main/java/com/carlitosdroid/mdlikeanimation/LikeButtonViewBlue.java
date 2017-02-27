@@ -168,7 +168,6 @@ public class LikeButtonViewBlue extends FrameLayout {
                 public void onAnimationEnd(Animator animation) {
                     onLikeAnimationListener.onLikeAnimationFinished();
                     onLikeAnimationItemClickListener.onLikeAnimationItemFinished(itemPositionClicked);
-                    //((TabLayoutActivity)getContext()).onLikeAnimationListener(itemPosition);
                 }
             });
             likeAnimatorSet.start();
@@ -199,9 +198,8 @@ public class LikeButtonViewBlue extends FrameLayout {
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    onLikeAnimationListener.onUnLikeAnimationfinished();
+                    onLikeAnimationListener.onUnLikeAnimationFinished();
                     onLikeAnimationItemClickListener.onUnLikeAnimationItemFinished(itemPositionClicked);
-                    //((TabLayoutActivity)getContext()).onUnLikeAnimationfinished(itemPosition);
                 }
             });
 
