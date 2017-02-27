@@ -5,7 +5,10 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -14,12 +17,17 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.carlitosdroid.interfaces.OnLikeAnimationItemClickListener;
+import com.carlitosdroid.interfaces.OnLikeAnimationListener;
+
 
 /**
- * Created by carlos on 25/05/16.
+ * Created by Carlos Leonardo Camilo on 25/05/16.
  * Alias: CarlitosDroid
  */
 public class LikeButtonViewBlue extends FrameLayout {
+
+    private final String LOG_TAG = LikeButtonViewBlue.class.getSimpleName();
     private static final DecelerateInterpolator DECCELERATE_INTERPOLATOR = new DecelerateInterpolator();
     private static final AccelerateDecelerateInterpolator ACCELERATE_DECELERATE_INTERPOLATOR = new AccelerateDecelerateInterpolator();
     private static final OvershootInterpolator OVERSHOOT_INTERPOLATOR = new OvershootInterpolator(4);
@@ -31,7 +39,23 @@ public class LikeButtonViewBlue extends FrameLayout {
     private DotsView vDotsView;
     private CircleView vCircle;
 
-    private int itemPosition;
+    private int likedResId;
+    private int unLikedResId;
+
+    private int itemPositionClicked = 0;
+
+    private int mTextColor;
+
+    private OnLikeAnimationListener onLikeAnimationListener;
+    private OnLikeAnimationItemClickListener onLikeAnimationItemClickListener;
+
+    public void setOnLikeAnimationClickListener(OnLikeAnimationListener onLikeAnimationListener){
+        this.onLikeAnimationListener = onLikeAnimationListener;
+    }
+
+    public void setOnLikeAnimationItemClickListener(OnLikeAnimationItemClickListener onLikeAnimationItemClickListener){
+        this.onLikeAnimationItemClickListener = onLikeAnimationItemClickListener;
+    }
 
     public LikeButtonViewBlue(Context context) {
         super(context);
@@ -41,11 +65,13 @@ public class LikeButtonViewBlue extends FrameLayout {
     public LikeButtonViewBlue(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
+        getAttributes(context, attrs);
     }
 
     public LikeButtonViewBlue(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
+        getAttributes(context, attrs);
     }
 
     private void init() {
@@ -58,12 +84,28 @@ public class LikeButtonViewBlue extends FrameLayout {
         unlikeAnimatorSet = new AnimatorSet();
     }
 
-    public void setImageResource(int imgDrawable) {
-        ivStar.setImageResource(imgDrawable);
+    private void getAttributes(Context context, AttributeSet attrs) {
+        TypedArray typedArray = context
+                .obtainStyledAttributes(attrs, R.styleable.md_like_animation, 0, 0);
+
+        if (typedArray != null) {
+            try {
+                mTextColor = typedArray.getColor(R.styleable.md_like_animation_text_color,
+                        ContextCompat.getColor(context, android.R.color.darker_gray));
+
+                likedResId =  typedArray.getResourceId(R.styleable.md_like_animation_label_background_res, R.drawable.ic_star_grey_500_24dp);
+                unLikedResId =  typedArray.getResourceId(R.styleable.md_like_animation_label_background_res, R.drawable.ic_star_border_grey_500_24dp);
+                ivStar.setImageResource(unLikedResId);
+            } catch (Exception e) {
+                Log.e(LOG_TAG, "Error while creating the view AutoLabelUI: ", e);
+            } finally {
+                typedArray.recycle();
+            }
+        }
     }
 
-    public void setItemPosition(int position){
-        itemPosition = position;
+    public void setImageResource(int imgDrawable) {
+        ivStar.setImageResource(imgDrawable);
     }
 
     public boolean isLikeAnimationRunning(){
@@ -78,7 +120,7 @@ public class LikeButtonViewBlue extends FrameLayout {
     public void startLikeAnimation() {
 
         if(!isLikeAnimationRunning()){
-            ivStar.setImageResource(R.drawable.ic_star_grey_500_24dp);
+            ivStar.setImageResource(likedResId);
 
             likeAnimatorSet.cancel();
             ivStar.animate().cancel();
@@ -124,7 +166,9 @@ public class LikeButtonViewBlue extends FrameLayout {
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    //((TabLayoutActivity)getContext()).onLikeAnimationFinished(itemPosition);
+                    onLikeAnimationListener.onLikeAnimationFinished();
+                    onLikeAnimationItemClickListener.onLikeAnimationItemFinished(itemPositionClicked);
+                    //((TabLayoutActivity)getContext()).onLikeAnimationListener(itemPosition);
                 }
             });
             likeAnimatorSet.start();
@@ -134,7 +178,7 @@ public class LikeButtonViewBlue extends FrameLayout {
     public void startUnLikeAnimation() {
         if(!isUnLikeAnimationRunning()){
 
-            ivStar.setImageResource(R.drawable.ic_star_border_grey_500_24dp);
+            ivStar.setImageResource(unLikedResId);
 
             unlikeAnimatorSet.cancel();
 
@@ -149,13 +193,14 @@ public class LikeButtonViewBlue extends FrameLayout {
             unlikeAnimatorSet.playTogether(
                     starScaleXAnimator,
                     starScaleYAnimator
-
             );
 
             unlikeAnimatorSet.addListener(new AnimatorListenerAdapter() {
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
+                    onLikeAnimationListener.onUnLikeAnimationfinished();
+                    onLikeAnimationItemClickListener.onUnLikeAnimationItemFinished(itemPositionClicked);
                     //((TabLayoutActivity)getContext()).onUnLikeAnimationfinished(itemPosition);
                 }
             });

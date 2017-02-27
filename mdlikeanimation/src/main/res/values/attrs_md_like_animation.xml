@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="md_like_animation">
+        <attr name="text_color" format="color" />
+        <attr name="label_background_res" format="reference" />
+    </declare-styleable>
+</resources>
